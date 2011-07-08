@@ -22,6 +22,10 @@ int main(int argc, char *argv[])
 	bool configuration_changed = false;
 	struct passwd *pw = getpwuid(getuid());
 	std::string homedir = pw->pw_dir;
+	char current_working_dir[FILENAME_MAX];
+
+	getcwd(current_working_dir,sizeof(current_working_dir));
+
 	in.open((homedir + "/.diff1").c_str(),std::ios::in);
 	if(in.is_open())
 	{
@@ -56,6 +60,10 @@ int main(int argc, char *argv[])
 			if(i < argc)
 			{
 				first_path = argv[i];
+				if("." == first_path)
+				{
+					first_path = current_working_dir;
+				}
 				configuration_changed = true;
 			}
 		}
@@ -65,6 +73,10 @@ int main(int argc, char *argv[])
 			if(i < argc)
 			{
 				second_path = argv[i];
+				if("." == second_path)
+				{
+					second_path = current_working_dir;
+				}
 				configuration_changed = true;
 			}
 		}
