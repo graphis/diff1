@@ -28,6 +28,34 @@
 #include <sys/types.h>
 #include <pwd.h>
 
+std::string trim_string(std::string str1)
+{
+	std::string str = str1;
+	while(0 < str.length())
+	{
+		if(isspace(str[0]))
+		{
+			str.erase(0,1);
+		}
+		else
+		{
+			break;
+		}
+	}
+	while(0 < str.length())
+	{
+		if(isspace(str[str.length()-1]))
+		{
+			str.erase(str.length()-1,1);
+		}
+		else
+		{
+			break;
+		}
+	}
+	return str;
+}
+
 int main(int argc, char *argv[])
 {
 	std::ifstream in;
@@ -54,12 +82,12 @@ int main(int argc, char *argv[])
 			if("firstpath" == token)
 			{
 				getline(line_stream,token);
-				first_path = token;
+				first_path = trim_string(token);
 			}
 			else if("secondpath" == token)
 			{
 				getline(line_stream,token);
-				second_path = token;
+				second_path = trim_string(token);
 			}
 		}
 		
